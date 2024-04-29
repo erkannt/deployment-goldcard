@@ -4,11 +4,7 @@ metadata:
   labels:
     app.kubernetes.io/component: cache
     app.kubernetes.io/instance: sciety--demo
-    app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: sciety
-    helm.sh/chart: sciety-0.3.0
-    helm.toolkit.fluxcd.io/name: sciety--demo
-    helm.toolkit.fluxcd.io/namespace: sciety
   name: sciety--demo--cache
 spec:
   ports:
@@ -27,11 +23,7 @@ metadata:
   labels:
     app.kubernetes.io/component: frontend
     app.kubernetes.io/instance: sciety--demo
-    app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: sciety
-    helm.sh/chart: sciety-0.3.0
-    helm.toolkit.fluxcd.io/name: sciety--demo
-    helm.toolkit.fluxcd.io/namespace: sciety
   name: sciety--demo--frontend
 spec:
   ports:
@@ -50,11 +42,7 @@ metadata:
   labels:
     app.kubernetes.io/component: cache
     app.kubernetes.io/instance: sciety--demo
-    app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: sciety
-    helm.sh/chart: sciety-0.3.0
-    helm.toolkit.fluxcd.io/name: sciety--demo
-    helm.toolkit.fluxcd.io/namespace: sciety
   name: sciety--demo--cache
 spec:
   selector:
@@ -83,11 +71,7 @@ metadata:
   labels:
     app.kubernetes.io/component: frontend
     app.kubernetes.io/instance: sciety--demo
-    app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: sciety
-    helm.sh/chart: sciety-0.3.0
-    helm.toolkit.fluxcd.io/name: sciety--demo
-    helm.toolkit.fluxcd.io/namespace: sciety
   name: sciety--demo--frontend
 spec:
   selector:
@@ -188,11 +172,7 @@ metadata:
   labels:
     app.kubernetes.io/component: ingestion
     app.kubernetes.io/instance: sciety--demo
-    app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: sciety
-    helm.sh/chart: sciety-0.3.0
-    helm.toolkit.fluxcd.io/name: sciety--demo
-    helm.toolkit.fluxcd.io/namespace: sciety
   name: sciety--demo--ingestion
 spec:
   concurrencyPolicy: Forbid
@@ -247,11 +227,7 @@ metadata:
   labels:
     app.kubernetes.io/component: frontend
     app.kubernetes.io/instance: sciety--demo
-    app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: sciety
-    helm.sh/chart: sciety-0.3.0
-    helm.toolkit.fluxcd.io/name: sciety--demo
-    helm.toolkit.fluxcd.io/namespace: sciety
   name: sciety--demo--frontend
 spec:
   rules:
