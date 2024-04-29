@@ -25,5 +25,5 @@ spec:
   - hosts:
     - example.com
     - www.example.com
-    secretname: frontend--letsencrypt-cert
+    secretName: frontend--letsencrypt-cert
 
