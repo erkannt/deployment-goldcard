@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: sciety--demo--frontend
+  name: frontend
 spec:
   ports:
   - port: 80

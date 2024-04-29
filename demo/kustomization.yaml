@@ -9,3 +9,6 @@ resources:
 commonLabels:
   app.kubernetes.io/name: sciety
   app.kubernetes.io/instance: sciety--demo
+
+namePrefix:
+  sciety--demo--

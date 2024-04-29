@@ -8,7 +8,7 @@ metadata:
     nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
   labels:
     app.kubernetes.io/component: frontend
-  name: sciety--demo--frontend
+  name: frontend
 spec:
   rules:
   - host: sciety-demo.elifesciences.org
@@ -16,7 +16,7 @@ spec:
       paths:
       - backend:
           service:
-            name: sciety--demo--frontend
+            name: frontend
             port:
               name: http
         path: /
@@ -25,5 +25,5 @@ spec:
   - hosts:
     - sciety-demo.elifesciences.org
     - www.sciety-demo.elifesciences.org
-    secretName: sciety--demo--frontend--letsencrypt-cert
+    secretname: frontend--letsencrypt-cert
 

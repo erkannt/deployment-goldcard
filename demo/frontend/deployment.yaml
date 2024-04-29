@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: sciety--demo--frontend
+  name: frontend
 spec:
   template:
     spec:

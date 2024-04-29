@@ -5,6 +5,14 @@ metadata:
 ---
 apiVersion: v1
 data:
+  key: dmFsdWU=
+kind: Secret
+metadata:
+  name: ncrc-sheet-key
+  namespace: sciety
+---
+apiVersion: v1
+data:
   postgresql-database: dGhlLWRhdGFiYXNlLW5hbWU=
   postgresql-host: c2NpZXR5LS1kZW1vLS1kYXRhYmFzZQ==
   postgresql-password: dGhlLWRhdGFiYXNlLXBhc3N3b3Jk
@@ -16,15 +24,7 @@ metadata:
     app.kubernetes.io/component: frontend
     app.kubernetes.io/instance: sciety--demo
     app.kubernetes.io/name: sciety
-  name: foo
-  namespace: sciety
----
-apiVersion: v1
-data:
-  key: dmFsdWU=
-kind: Secret
-metadata:
-  name: ncrc-sheet-key
+  name: sciety--demo--foo
   namespace: sciety
 ---
 apiVersion: v1
@@ -147,27 +147,27 @@ spec:
           valueFrom:
             secretKeyRef:
               key: postgresql-database
-              name: foo
+              name: sciety--demo--foo
         - name: PGUSER
           valueFrom:
             secretKeyRef:
               key: postgresql-username
-              name: foo
+              name: sciety--demo--foo
         - name: PGPASSWORD
           valueFrom:
             secretKeyRef:
               key: postgresql-password
-              name: foo
+              name: sciety--demo--foo
         - name: PGHOST
           valueFrom:
             secretKeyRef:
               key: postgresql-host
-              name: foo
+              name: sciety--demo--foo
         - name: PGPORT
           valueFrom:
             secretKeyRef:
               key: postgresql-port
-              name: foo
+              name: sciety--demo--foo
         - name: AUTH0_CLIENT_ID
           value: bogus-auth0-client-id
         - name: AUTH0_CLIENT_SECRET
@@ -285,4 +285,4 @@ spec:
   - hosts:
     - sciety-demo.elifesciences.org
     - www.sciety-demo.elifesciences.org
-    secretName: sciety--demo--frontend--letsencrypt-cert
+    secretname: frontend--letsencrypt-cert
