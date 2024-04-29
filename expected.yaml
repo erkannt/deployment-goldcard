@@ -42,19 +42,26 @@ metadata:
 ---
 apiVersion: v1
 data:
-  postgresql-database: dGhlLWRhdGFiYXNlLW5hbWU=
-  postgresql-host: c2NpZXR5LS1kZW1vLS1kYXRhYmFzZQ==
-  postgresql-password: dGhlLWRhdGFiYXNlLXBhc3N3b3Jk
-  postgresql-port: NTQzMg==
-  postgresql-username: dGhlLWRhdGFiYXNlLXVzZXI=
+  APP_SECRET: dW5zYWZlLXNlY3JldA==
+  AUTH0_CALLBACK_URL: aHR0cHM6Ly9zdGFnaW5nLnNjaWV0eS5vcmcvYXV0aDAvY2FsbGJhY2s=
+  AUTH0_CLIENT_ID: Ym9ndXMtYXV0aDAtY2xpZW50LWlk
+  AUTH0_CLIENT_SECRET: Ym9ndXMtYXV0aDAtY2xpZW50LXNlY3JldA==
+  AUTH0_DOMAIN: c2NpZXR5LXN0YWdpbmcuZXUuYXV0aDAuY29t
+  CROSSREF_API_BEARER_TOKEN: Ym9ndXM=
+  PGDATABASE: dGhlLWRhdGFiYXNlLW5hbWU=
+  PGHOST: c2NpZXR5LS1kZW1vLS1kYXRhYmFzZQ==
+  PGPASSWORD: dGhlLWRhdGFiYXNlLXBhc3N3b3Jk
+  PGPORT: NTQzMg==
+  PGUSER: dGhlLWRhdGFiYXNlLXVzZXI=
+  SCIETY_TEAM_API_BEARER_TOKEN: bm90LXJlYWxseS1zZWNyZXQtYmVhcmVyLXRva2Vu
 kind: Secret
 metadata:
   labels:
-    app.kubernetes.io/component: frontend
     app.kubernetes.io/instance: sciety--demo
     app.kubernetes.io/name: sciety
-  name: sciety--demo--foo
+  name: sciety--demo--frontend-secret-m9m2fhdhc5
   namespace: sciety
+type: Opaque
 ---
 apiVersion: v1
 kind: Service
@@ -149,49 +156,11 @@ spec:
         app.kubernetes.io/name: sciety
     spec:
       containers:
-      - env:
-        - name: APP_SECRET
-          value: unsafe-secret
-        - name: CROSSREF_API_BEARER_TOKEN
-          value: bogus
-        - name: SCIETY_TEAM_API_BEARER_TOKEN
-          value: not-really-secret-bearer-token
-        - name: PGDATABASE
-          valueFrom:
-            secretKeyRef:
-              key: postgresql-database
-              name: sciety--demo--foo
-        - name: PGUSER
-          valueFrom:
-            secretKeyRef:
-              key: postgresql-username
-              name: sciety--demo--foo
-        - name: PGPASSWORD
-          valueFrom:
-            secretKeyRef:
-              key: postgresql-password
-              name: sciety--demo--foo
-        - name: PGHOST
-          valueFrom:
-            secretKeyRef:
-              key: postgresql-host
-              name: sciety--demo--foo
-        - name: PGPORT
-          valueFrom:
-            secretKeyRef:
-              key: postgresql-port
-              name: sciety--demo--foo
-        - name: AUTH0_CLIENT_ID
-          value: bogus-auth0-client-id
-        - name: AUTH0_CLIENT_SECRET
-          value: bogus-auth0-client-secret
-        - name: AUTH0_DOMAIN
-          value: sciety-staging.eu.auth0.com
-        - name: AUTH0_CALLBACK_URL
-          value: https://staging.sciety.org/auth0/callback
-        envFrom:
+      - envFrom:
         - configMapRef:
             name: sciety--demo--frontend-env-fh4472m5ff
+        - secretRef:
+            name: sciety--demo--frontend-secret-m9m2fhdhc5
         image: sciety/sciety:c9ce6d413f5ee857b9b55b526e0e5846b66eaac0
         name: app
         ports:

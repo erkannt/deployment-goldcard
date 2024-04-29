@@ -27,3 +27,7 @@ configMapGenerator:
       - EXPERIMENT_ENABLED=
       - FATHOM_SITE_ID=
       - GOOGLE_TAG_MANAGER_ID=
+secretGenerator:
+  - name: frontend-secret
+    envs:
+      - "./frontend-secret.env"
