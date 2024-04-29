@@ -7,7 +7,7 @@ spec:
     spec:
       containers:
       - name: app
-        image: sciety/sciety:c9ce6d413f5ee857b9b55b526e0e5846b66eaac0
+        image: sciety/sciety
         envFrom:
           - configMapRef:
               name: frontend-env

@@ -11,6 +11,13 @@ commonLabels:
 namePrefix:
   sciety--demo--
 
+images:
+  - name: sciety/sciety
+    newTag: c9ce6d413f5ee857b9b55b526e0e5846b66eaac0
+  - name: redis
+    newTag: 7.2.0-alpine
+    digest: sha256:5ddcd6e1a1ee0d3a2e9fe1abb427be987ab082e4756bdc513cd4293dacf05d27
+
 patches:
   - patch: |-
       - op: replace
