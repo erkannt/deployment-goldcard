@@ -1,11 +1,12 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
-namespace: sciety
-
 resources:
-  - "./namespace.yaml"
-  - "./ncrc-sheet-key.yaml"
+  - "./shared/namespace.yaml"
+  - "./shared/ncrc-sheet-key.yaml"
+  - "./demo"
+
+namespace: sciety
 
 commonLabels:
   app.kubernetes.io/name: sciety

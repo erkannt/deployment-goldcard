@@ -7,6 +7,20 @@ metadata:
 ---
 apiVersion: v1
 data:
+  postgresql-database: dGhlLWRhdGFiYXNlLW5hbWU=
+  postgresql-host: c2NpZXR5LS1kZW1vLS1kYXRhYmFzZQ==
+  postgresql-password: dGhlLWRhdGFiYXNlLXBhc3N3b3Jk
+  postgresql-port: NTQzMg==
+  postgresql-username: dGhlLWRhdGFiYXNlLXVzZXI=
+kind: Secret
+metadata:
+  labels:
+    app.kubernetes.io/name: sciety
+  name: foo
+  namespace: sciety
+---
+apiVersion: v1
+data:
   key: dmFsdWU=
 kind: Secret
 metadata:
@@ -16,17 +30,6 @@ metadata:
   namespace: sciety
 ---
 apiVersion: v1
-data:
-  postgresql-database: dGhlLWRhdGFiYXNlLW5hbWU=
-  postgresql-host: c2NpZXR5LS1kZW1vLS1kYXRhYmFzZQ==
-  postgresql-password: dGhlLWRhdGFiYXNlLXBhc3N3b3Jk
-  postgresql-port: NTQzMg==
-  postgresql-username: dGhlLWRhdGFiYXNlLXVzZXI=
-kind: Secret
-metadata:
-  name: foo
----
-apiVersion: v1
 kind: Service
 metadata:
   labels:
@@ -34,6 +37,7 @@ metadata:
     app.kubernetes.io/instance: sciety--demo
     app.kubernetes.io/name: sciety
   name: sciety--demo--cache
+  namespace: sciety
 spec:
   ports:
   - port: 6379
@@ -53,6 +57,7 @@ metadata:
     app.kubernetes.io/instance: sciety--demo
     app.kubernetes.io/name: sciety
   name: sciety--demo--frontend
+  namespace: sciety
 spec:
   ports:
   - port: 80
@@ -72,6 +77,7 @@ metadata:
     app.kubernetes.io/instance: sciety--demo
     app.kubernetes.io/name: sciety
   name: sciety--demo--cache
+  namespace: sciety
 spec:
   selector:
     matchLabels:
@@ -101,6 +107,7 @@ metadata:
     app.kubernetes.io/instance: sciety--demo
     app.kubernetes.io/name: sciety
   name: sciety--demo--frontend
+  namespace: sciety
 spec:
   selector:
     matchLabels:
@@ -202,9 +209,13 @@ metadata:
     app.kubernetes.io/instance: sciety--demo
     app.kubernetes.io/name: sciety
   name: sciety--demo--ingestion
+  namespace: sciety
 spec:
   concurrencyPolicy: Forbid
   jobTemplate:
+    metadata:
+      labels:
+        app.kubernetes.io/name: sciety
     spec:
       template:
         metadata:
@@ -257,6 +268,7 @@ metadata:
     app.kubernetes.io/instance: sciety--demo
     app.kubernetes.io/name: sciety
   name: sciety--demo--frontend
+  namespace: sciety
 spec:
   rules:
   - host: sciety-demo.elifesciences.org
