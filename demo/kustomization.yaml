@@ -4,4 +4,7 @@ kind: Kustomization
 resources:
   - "../base"
   - "./foo-secret.yaml"
-  - "./sciety--demo.yaml"
+  - "./cache.yaml"
+  - "./frontend.yaml"
+  - "./ingestion.yaml"
+  - "./ingress.yaml"

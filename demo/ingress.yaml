@@ -1,0 +1,31 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      more_set_input_headers "X-Forwarded-Proto: https";
+    nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
+  labels:
+    app.kubernetes.io/component: frontend
+    app.kubernetes.io/instance: sciety--demo
+    app.kubernetes.io/name: sciety
+  name: sciety--demo--frontend
+spec:
+  rules:
+  - host: sciety-demo.elifesciences.org
+    http:
+      paths:
+      - backend:
+          service:
+            name: sciety--demo--frontend
+            port:
+              name: http
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - sciety-demo.elifesciences.org
+    - www.sciety-demo.elifesciences.org
+    secretName: sciety--demo--frontend--letsencrypt-cert
+
