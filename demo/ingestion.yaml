@@ -3,7 +3,6 @@ kind: CronJob
 metadata:
   labels:
     app.kubernetes.io/component: ingestion
-    app.kubernetes.io/instance: sciety--demo
   name: sciety--demo--ingestion
 spec:
   concurrencyPolicy: Forbid
@@ -13,7 +12,6 @@ spec:
         metadata:
           labels:
             app.kubernetes.io/component: ingestion
-            app.kubernetes.io/instance: sciety--demo
         spec:
           containers:
           - command:

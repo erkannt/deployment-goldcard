@@ -8,7 +8,6 @@ metadata:
     nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
   labels:
     app.kubernetes.io/component: frontend
-    app.kubernetes.io/instance: sciety--demo
   name: sciety--demo--frontend
 spec:
   rules:
