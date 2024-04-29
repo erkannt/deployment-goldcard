@@ -7,6 +7,3 @@ resources:
   - "./demo"
 
 namespace: sciety
-
-commonLabels:
-  app.kubernetes.io/name: sciety
