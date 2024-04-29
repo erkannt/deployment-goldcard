@@ -13,6 +13,21 @@ commonLabels:
 namePrefix:
   sciety--demo--
 
+patches:
+  - patch: |-
+      - op: replace
+        path: /spec/rules/0/host
+        value: sciety-demo.elifesciences.org
+      - op: replace
+        path: /spec/tls/0/hosts/0
+        value: sciety-demo.elifesciences.org
+      - op: replace
+        path: /spec/tls/0/hosts/1
+        value: www.sciety-demo.elifesciences.org
+    target:
+      kind: Ingress
+      name: frontend
+
 configMapGenerator:
   - name: frontend-env
     literals:

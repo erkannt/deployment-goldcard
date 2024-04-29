@@ -11,7 +11,7 @@ metadata:
   name: frontend
 spec:
   rules:
-  - host: sciety-demo.elifesciences.org
+  - host: example.com
     http:
       paths:
       - backend:
@@ -23,7 +23,7 @@ spec:
         pathType: Prefix
   tls:
   - hosts:
-    - sciety-demo.elifesciences.org
-    - www.sciety-demo.elifesciences.org
+    - example.com
+    - www.example.com
     secretname: frontend--letsencrypt-cert
 
