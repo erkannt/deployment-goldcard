@@ -2,7 +2,6 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - "./namespace.yaml"
+  - "../base"
   - "./foo-secret.yaml"
-  - "./ncrc-sheet-key.yaml"
   - "./sciety--demo.yaml"
