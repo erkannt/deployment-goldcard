@@ -66,6 +66,9 @@ type: Opaque
 apiVersion: v1
 data:
   CROSSREF_API_BEARER_TOKEN: Ym9ndXM=
+  HEALTHCHECK_ENDPOINT: |
+    aHR0cHM6Ly9oYy1waW5nLmNvbS9ib2d1cy1oZWFsdGhjaGVja3MtcGluZy1rZXkvc2NpZX
+    R5LWRlbW8taW5nZXN0aW9u
   PRELIGHTS_FEED_KEY: Ym9ndXMtcHJlbGlnaHRzLWZlZWQta2V5
   SCIETY_TEAM_API_BEARER_TOKEN: bm90LXJlYWxseS1zZWNyZXQtYmVhcmVyLXRva2Vu
 kind: Secret
@@ -73,7 +76,7 @@ metadata:
   labels:
     app.kubernetes.io/instance: sciety--demo
     app.kubernetes.io/name: sciety
-  name: sciety--demo--ingestion-secret-5hbcthhftd
+  name: sciety--demo--ingestion-secret-5t45tdm7h7
   namespace: sciety
 type: Opaque
 ---
@@ -227,13 +230,13 @@ spec:
           - command:
             - sh
             - -c
-            - node ./build/ingest/update-event-data && wget --quiet https://hc-ping.com/bogus-healthchecks-ping-key/sciety-demo-ingestion
+            - node ./build/ingest/update-event-data && wget --quiet ${HEALTHCHECK_ENDPOINT}
               || echo 'Done'
             envFrom:
             - configMapRef:
                 name: sciety--demo--ingestion-env-772tg75gd8
             - secretRef:
-                name: sciety--demo--ingestion-secret-5hbcthhftd
+                name: sciety--demo--ingestion-secret-5t45tdm7h7
             image: sciety/sciety:c9ce6d413f5ee857b9b55b526e0e5846b66eaac0
             name: app
             volumeMounts:

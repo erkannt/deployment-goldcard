@@ -14,7 +14,7 @@ spec:
             command:
             - sh
             - -c
-            - node ./build/ingest/update-event-data && wget --quiet https://hc-ping.com/bogus-healthchecks-ping-key/sciety-demo-ingestion || echo 'Done'
+            - node ./build/ingest/update-event-data && wget --quiet ${HEALTHCHECK_ENDPOINT} || echo 'Done'
             envFrom:
               - configMapRef:
                   name: ingestion-env
