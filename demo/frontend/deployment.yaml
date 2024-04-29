@@ -6,10 +6,12 @@ spec:
   template:
     spec:
       containers:
-      - envFrom:
+      - name: app
+        image: sciety/sciety:c9ce6d413f5ee857b9b55b526e0e5846b66eaac0
+        envFrom:
           - configMapRef:
               name: frontend-env
-      - env:
+        env:
         - name: APP_SECRET
           value: unsafe-secret
         - name: CROSSREF_API_BEARER_TOKEN
@@ -49,8 +51,6 @@ spec:
           value: sciety-staging.eu.auth0.com
         - name: AUTH0_CALLBACK_URL
           value: https://staging.sciety.org/auth0/callback
-        image: sciety/sciety:c9ce6d413f5ee857b9b55b526e0e5846b66eaac0
-        name: app
         ports:
         - containerPort: 80
           name: http

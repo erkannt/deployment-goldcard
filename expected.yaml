@@ -149,9 +149,6 @@ spec:
         app.kubernetes.io/name: sciety
     spec:
       containers:
-      - envFrom:
-        - configMapRef:
-            name: sciety--demo--frontend-env-fh4472m5ff
       - env:
         - name: APP_SECRET
           value: unsafe-secret
@@ -192,6 +189,9 @@ spec:
           value: sciety-staging.eu.auth0.com
         - name: AUTH0_CALLBACK_URL
           value: https://staging.sciety.org/auth0/callback
+        envFrom:
+        - configMapRef:
+            name: sciety--demo--frontend-env-fh4472m5ff
         image: sciety/sciety:c9ce6d413f5ee857b9b55b526e0e5846b66eaac0
         name: app
         ports:
