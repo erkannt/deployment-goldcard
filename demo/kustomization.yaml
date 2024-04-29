@@ -14,10 +14,6 @@ namePrefix:
   sciety--demo--
 
 configMapGenerator:
-  - name: ingestion-env
-    literals:
-      - INGESTION_TARGET_APP=https://sciety-demo.elifesciences.org
-      - EXPERIMENT_ENABLED=""
   - name: frontend-env
     literals:
       - ALLOW_SITE_CRAWLERS=false
@@ -27,7 +23,15 @@ configMapGenerator:
       - EXPERIMENT_ENABLED=
       - FATHOM_SITE_ID=
       - GOOGLE_TAG_MANAGER_ID=
+  - name: ingestion-env
+    literals:
+      - INGESTION_TARGET_APP=https://sciety-demo.elifesciences.org
+      - EXPERIMENT_ENABLED=""
+
 secretGenerator:
   - name: frontend-secret
     envs:
       - "./frontend-secret.env"
+  - name: ingestion-secret
+    envs:
+      - "./ingestion-secret.env"
