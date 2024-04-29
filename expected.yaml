@@ -13,6 +13,7 @@ data:
 kind: Secret
 metadata:
   labels:
+    app.kubernetes.io/component: frontend
     app.kubernetes.io/instance: sciety--demo
     app.kubernetes.io/name: sciety
   name: foo
@@ -212,6 +213,7 @@ spec:
   jobTemplate:
     metadata:
       labels:
+        app.kubernetes.io/component: ingestion
         app.kubernetes.io/instance: sciety--demo
         app.kubernetes.io/name: sciety
     spec:
