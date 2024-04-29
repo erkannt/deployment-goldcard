@@ -2,13 +2,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - "../base"
-  - "./frontend"
-  - "./ingestion"
+  - "./cache"
 
 commonLabels:
   app.kubernetes.io/name: sciety
-  app.kubernetes.io/instance: sciety--demo
-
-namePrefix:
-  sciety--demo--
