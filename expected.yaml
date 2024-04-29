@@ -139,8 +139,6 @@ spec:
           value: null
         - name: GOOGLE_TAG_MANAGER_ID
           value: null
-        - name: SCIETY_API
-          value: https://sciety-demo.elifesciences.org
         - name: SCIETY_TEAM_API_BEARER_TOKEN
           value: not-really-secret-bearer-token
         - name: PGDATABASE
