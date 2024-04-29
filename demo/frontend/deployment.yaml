@@ -6,25 +6,14 @@ spec:
   template:
     spec:
       containers:
+      - envFrom:
+          - configMapRef:
+              name: frontend-env
       - env:
-        - name: ALLOW_SITE_CRAWLERS
-          value: "false"
-        - name: APP_ORIGIN
-          value: https://sciety-demo.elifesciences.org
         - name: APP_SECRET
           value: unsafe-secret
-        - name: APP_CACHE
-          value: redis
-        - name: CACHE_HOST
-          value: sciety--demo--cache
         - name: CROSSREF_API_BEARER_TOKEN
           value: bogus
-        - name: EXPERIMENT_ENABLED
-          value: ""
-        - name: FATHOM_SITE_ID
-          value: null
-        - name: GOOGLE_TAG_MANAGER_ID
-          value: null
         - name: SCIETY_TEAM_API_BEARER_TOKEN
           value: not-really-secret-bearer-token
         - name: PGDATABASE

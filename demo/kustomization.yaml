@@ -18,3 +18,12 @@ configMapGenerator:
     literals:
       - INGESTION_TARGET_APP=https://sciety-demo.elifesciences.org
       - EXPERIMENT_ENABLED=""
+  - name: frontend-env
+    literals:
+      - ALLOW_SITE_CRAWLERS=false
+      - APP_ORIGIN=https://sciety-demo.elifesciences.org
+      - APP_CACHE=redis
+      - CACHE_HOST=sciety--demo--cache
+      - EXPERIMENT_ENABLED=
+      - FATHOM_SITE_ID=
+      - GOOGLE_TAG_MANAGER_ID=
