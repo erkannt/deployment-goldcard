@@ -1,7 +1,6 @@
 apiVersion: v1
 kind: Service
 metadata:
-  namespace: sciety
   labels:
     app.kubernetes.io/component: cache
     app.kubernetes.io/instance: sciety--demo
@@ -25,7 +24,6 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  namespace: sciety
   labels:
     app.kubernetes.io/component: frontend
     app.kubernetes.io/instance: sciety--demo
@@ -49,7 +47,6 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: sciety
   labels:
     app.kubernetes.io/component: cache
     app.kubernetes.io/instance: sciety--demo
@@ -83,7 +80,6 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: sciety
   labels:
     app.kubernetes.io/component: frontend
     app.kubernetes.io/instance: sciety--demo
@@ -189,7 +185,6 @@ spec:
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  namespace: sciety
   labels:
     app.kubernetes.io/component: ingestion
     app.kubernetes.io/instance: sciety--demo
@@ -249,7 +244,6 @@ metadata:
     nginx.ingress.kubernetes.io/configuration-snippet: |
       more_set_input_headers "X-Forwarded-Proto: https";
     nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
-  namespace: sciety
   labels:
     app.kubernetes.io/component: frontend
     app.kubernetes.io/instance: sciety--demo
