@@ -1,0 +1,272 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: sciety
+---
+apiVersion: v1
+data:
+  key: dmFsdWU=
+kind: Secret
+metadata:
+  name: ncrc-sheet-key
+  namespace: sciety
+---
+apiVersion: v1
+data:
+  postgresql-database: dGhlLWRhdGFiYXNlLW5hbWU=
+  postgresql-host: c2NpZXR5LS1kZW1vLS1kYXRhYmFzZQ==
+  postgresql-password: dGhlLWRhdGFiYXNlLXBhc3N3b3Jk
+  postgresql-port: NTQzMg==
+  postgresql-username: dGhlLWRhdGFiYXNlLXVzZXI=
+kind: Secret
+metadata:
+  name: foo
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/component: cache
+    app.kubernetes.io/instance: sciety--demo
+    app.kubernetes.io/name: sciety
+  name: sciety--demo--cache
+spec:
+  ports:
+  - port: 6379
+    protocol: TCP
+    targetPort: redis
+  selector:
+    app.kubernetes.io/component: cache
+    app.kubernetes.io/instance: sciety--demo
+    app.kubernetes.io/name: sciety
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/component: frontend
+    app.kubernetes.io/instance: sciety--demo
+    app.kubernetes.io/name: sciety
+  name: sciety--demo--frontend
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: http
+  selector:
+    app.kubernetes.io/component: frontend
+    app.kubernetes.io/instance: sciety--demo
+    app.kubernetes.io/name: sciety
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/component: cache
+    app.kubernetes.io/instance: sciety--demo
+    app.kubernetes.io/name: sciety
+  name: sciety--demo--cache
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: cache
+      app.kubernetes.io/instance: sciety--demo
+      app.kubernetes.io/name: sciety
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/component: cache
+        app.kubernetes.io/instance: sciety--demo
+        app.kubernetes.io/name: sciety
+    spec:
+      containers:
+      - image: redis:7.2.0-alpine@sha256:5ddcd6e1a1ee0d3a2e9fe1abb427be987ab082e4756bdc513cd4293dacf05d27
+        name: redis
+        ports:
+        - containerPort: 6379
+          name: redis
+          protocol: TCP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/component: frontend
+    app.kubernetes.io/instance: sciety--demo
+    app.kubernetes.io/name: sciety
+  name: sciety--demo--frontend
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: frontend
+      app.kubernetes.io/instance: sciety--demo
+      app.kubernetes.io/name: sciety
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/component: frontend
+        app.kubernetes.io/instance: sciety--demo
+        app.kubernetes.io/name: sciety
+    spec:
+      containers:
+      - env:
+        - name: ALLOW_SITE_CRAWLERS
+          value: "false"
+        - name: APP_ORIGIN
+          value: https://sciety-demo.elifesciences.org
+        - name: APP_SECRET
+          value: unsafe-secret
+        - name: APP_CACHE
+          value: redis
+        - name: CACHE_HOST
+          value: sciety--demo--cache
+        - name: CROSSREF_API_BEARER_TOKEN
+          value: bogus
+        - name: EXPERIMENT_ENABLED
+          value: ""
+        - name: FATHOM_SITE_ID
+          value: null
+        - name: GOOGLE_TAG_MANAGER_ID
+          value: null
+        - name: SCIETY_API
+          value: https://sciety-demo.elifesciences.org
+        - name: SCIETY_TEAM_API_BEARER_TOKEN
+          value: not-really-secret-bearer-token
+        - name: PGDATABASE
+          valueFrom:
+            secretKeyRef:
+              key: postgresql-database
+              name: foo
+        - name: PGUSER
+          valueFrom:
+            secretKeyRef:
+              key: postgresql-username
+              name: foo
+        - name: PGPASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: postgresql-password
+              name: foo
+        - name: PGHOST
+          valueFrom:
+            secretKeyRef:
+              key: postgresql-host
+              name: foo
+        - name: PGPORT
+          valueFrom:
+            secretKeyRef:
+              key: postgresql-port
+              name: foo
+        - name: AUTH0_CLIENT_ID
+          value: bogus-auth0-client-id
+        - name: AUTH0_CLIENT_SECRET
+          value: bogus-auth0-client-secret
+        - name: AUTH0_DOMAIN
+          value: sciety-staging.eu.auth0.com
+        - name: AUTH0_CALLBACK_URL
+          value: https://staging.sciety.org/auth0/callback
+        image: sciety/sciety:c9ce6d413f5ee857b9b55b526e0e5846b66eaac0
+        name: app
+        ports:
+        - containerPort: 80
+          name: http
+          protocol: TCP
+        readinessProbe:
+          httpGet:
+            path: /ping
+            port: http
+          timeoutSeconds: 5
+        resources:
+          requests:
+            cpu: 1
+        volumeMounts:
+        - mountPath: /var/run/secrets/app
+          name: gcp-ncrc-key
+          readOnly: true
+      volumes:
+      - name: gcp-ncrc-key
+        secret:
+          secretName: ncrc-sheet-key
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  labels:
+    app.kubernetes.io/component: ingestion
+    app.kubernetes.io/instance: sciety--demo
+    app.kubernetes.io/name: sciety
+  name: sciety--demo--ingestion
+spec:
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app.kubernetes.io/component: ingestion
+            app.kubernetes.io/instance: sciety--demo
+            app.kubernetes.io/name: sciety
+        spec:
+          containers:
+          - command:
+            - sh
+            - -c
+            - node ./build/ingest/update-event-data && wget --quiet https://hc-ping.com/bogus-healthchecks-ping-key/sciety-demo-ingestion
+              || echo 'Done'
+            env:
+            - name: CROSSREF_API_BEARER_TOKEN
+              value: bogus
+            - name: SCIETY_TEAM_API_BEARER_TOKEN
+              value: not-really-secret-bearer-token
+            - name: INGESTION_TARGET_APP
+              value: https://sciety-demo.elifesciences.org
+            - name: PRELIGHTS_FEED_KEY
+              value: bogus-prelights-feed-key
+            - name: EXPERIMENT_ENABLED
+              value: ""
+            image: sciety/sciety:c9ce6d413f5ee857b9b55b526e0e5846b66eaac0
+            name: app
+            volumeMounts:
+            - mountPath: /var/run/secrets/app
+              name: gcp-ncrc-key
+              readOnly: true
+          restartPolicy: Never
+          volumes:
+          - name: gcp-ncrc-key
+            secret:
+              secretName: ncrc-sheet-key
+  schedule: '*/30 * * * *'
+  startingDeadlineSeconds: 720
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      more_set_input_headers "X-Forwarded-Proto: https";
+    nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
+  labels:
+    app.kubernetes.io/component: frontend
+    app.kubernetes.io/instance: sciety--demo
+    app.kubernetes.io/name: sciety
+  name: sciety--demo--frontend
+spec:
+  rules:
+  - host: sciety-demo.elifesciences.org
+    http:
+      paths:
+      - backend:
+          service:
+            name: sciety--demo--frontend
+            port:
+              name: http
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - sciety-demo.elifesciences.org
+    - www.sciety-demo.elifesciences.org
+    secretName: sciety--demo--frontend--letsencrypt-cert
