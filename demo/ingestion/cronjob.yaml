@@ -12,19 +12,17 @@ spec:
           - command:
             - sh
             - -c
-            - node ./build/ingest/update-event-data && wget --quiet https://hc-ping.com/bogus-healthchecks-ping-key/sciety-demo-ingestion
-              || echo 'Done'
+            - node ./build/ingest/update-event-data && wget --quiet https://hc-ping.com/bogus-healthchecks-ping-key/sciety-demo-ingestion || echo 'Done'
+            envFrom:
+              - configMapRef:
+                  name: ingestion-env
             env:
             - name: CROSSREF_API_BEARER_TOKEN
               value: bogus
             - name: SCIETY_TEAM_API_BEARER_TOKEN
               value: not-really-secret-bearer-token
-            - name: INGESTION_TARGET_APP
-              value: https://sciety-demo.elifesciences.org
             - name: PRELIGHTS_FEED_KEY
               value: bogus-prelights-feed-key
-            - name: EXPERIMENT_ENABLED
-              value: ""
             image: sciety/sciety:c9ce6d413f5ee857b9b55b526e0e5846b66eaac0
             name: app
             volumeMounts:

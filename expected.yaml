@@ -5,6 +5,18 @@ metadata:
 ---
 apiVersion: v1
 data:
+  EXPERIMENT_ENABLED: ""
+  INGESTION_TARGET_APP: https://sciety-demo.elifesciences.org
+kind: ConfigMap
+metadata:
+  labels:
+    app.kubernetes.io/instance: sciety--demo
+    app.kubernetes.io/name: sciety
+  name: sciety--demo--ingestion-env-772tg75gd8
+  namespace: sciety
+---
+apiVersion: v1
+data:
   key: dmFsdWU=
 kind: Secret
 metadata:
@@ -233,12 +245,11 @@ spec:
               value: bogus
             - name: SCIETY_TEAM_API_BEARER_TOKEN
               value: not-really-secret-bearer-token
-            - name: INGESTION_TARGET_APP
-              value: https://sciety-demo.elifesciences.org
             - name: PRELIGHTS_FEED_KEY
               value: bogus-prelights-feed-key
-            - name: EXPERIMENT_ENABLED
-              value: ""
+            envFrom:
+            - configMapRef:
+                name: sciety--demo--ingestion-env-772tg75gd8
             image: sciety/sciety:c9ce6d413f5ee857b9b55b526e0e5846b66eaac0
             name: app
             volumeMounts:

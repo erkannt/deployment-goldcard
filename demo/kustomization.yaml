@@ -12,3 +12,9 @@ commonLabels:
 
 namePrefix:
   sciety--demo--
+
+configMapGenerator:
+  - name: ingestion-env
+    literals:
+      - INGESTION_TARGET_APP=https://sciety-demo.elifesciences.org
+      - EXPERIMENT_ENABLED=""
