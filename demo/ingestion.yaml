@@ -4,7 +4,6 @@ metadata:
   labels:
     app.kubernetes.io/component: ingestion
     app.kubernetes.io/instance: sciety--demo
-    app.kubernetes.io/name: sciety
   name: sciety--demo--ingestion
 spec:
   concurrencyPolicy: Forbid
@@ -15,7 +14,6 @@ spec:
           labels:
             app.kubernetes.io/component: ingestion
             app.kubernetes.io/instance: sciety--demo
-            app.kubernetes.io/name: sciety
         spec:
           containers:
           - command:

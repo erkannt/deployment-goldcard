@@ -9,7 +9,6 @@ metadata:
   labels:
     app.kubernetes.io/component: frontend
     app.kubernetes.io/instance: sciety--demo
-    app.kubernetes.io/name: sciety
   name: sciety--demo--frontend
 spec:
   rules:
