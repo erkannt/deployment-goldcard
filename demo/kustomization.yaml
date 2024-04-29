@@ -18,21 +18,6 @@ images:
     newTag: 7.2.0-alpine
     digest: sha256:5ddcd6e1a1ee0d3a2e9fe1abb427be987ab082e4756bdc513cd4293dacf05d27
 
-patches:
-  - patch: |-
-      - op: replace
-        path: /spec/rules/0/host
-        value: sciety-demo.elifesciences.org
-      - op: replace
-        path: /spec/tls/0/hosts/0
-        value: sciety-demo.elifesciences.org
-      - op: replace
-        path: /spec/tls/0/hosts/1
-        value: www.sciety-demo.elifesciences.org
-    target:
-      kind: Ingress
-      name: frontend
-
 configMapGenerator:
   - name: frontend-env
     literals:
@@ -47,6 +32,21 @@ configMapGenerator:
     literals:
       - INGESTION_TARGET_APP=https://sciety-demo.elifesciences.org
       - EXPERIMENT_ENABLED=""
+
+patches:
+  - patch: |-
+      - op: replace
+        path: /spec/rules/0/host
+        value: sciety-demo.elifesciences.org
+      - op: replace
+        path: /spec/tls/0/hosts/0
+        value: sciety-demo.elifesciences.org
+      - op: replace
+        path: /spec/tls/0/hosts/1
+        value: www.sciety-demo.elifesciences.org
+    target:
+      kind: Ingress
+      name: frontend
 
 secretGenerator:
   - name: frontend-secret
